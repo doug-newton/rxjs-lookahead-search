@@ -1,4 +1,21 @@
-<input #query name="query" type="text" (input)="query$.next(query.value)" (keydown.enter)="query.select()" placeholder="type something...">
+<h1 style="text-align: center">Dictionary</h1>
+
+<div style="text-align: center; border: 1px solid black;">
+  <p>
+    enter your query below. dictionary entries will appear for words containing your query as you type
+  </p>
+  <p>
+    use <kbd>ESC</kbd> to highlight the search for quick deletion
+  </p>
+</div>
+
+<br>
+
+<input #query name="query" type="text" 
+autofocus
+  (input)="query$.next(query.value)" 
+  (keydown.escape)="query.select()" 
+  placeholder="type something...">
 
 <br>
 
