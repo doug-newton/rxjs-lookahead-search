@@ -12,6 +12,8 @@ app.get('/api/searchByWord/:word', (req, res) => {
             '$match': {
                 'word': new RegExp(req.params.word)
             }
+        }, {
+            '$limit': 50
         }
     ]).toArray((err, result) => {
         res.json(result)
