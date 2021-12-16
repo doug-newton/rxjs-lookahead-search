@@ -1,4 +1,4 @@
-<input #query name="query" type="text" (input)="query$.next(query.value)" placeholder="type something...">
+<input #query name="query" type="text" (input)="query$.next(query.value)" (keydown.enter)="query.select()" placeholder="type something...">
 
 <br>
 
