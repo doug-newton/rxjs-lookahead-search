@@ -1,5 +1,6 @@
 import { Component, } from '@angular/core';
 import { debounceTime, Observable, Subject, switchMap } from 'rxjs';
+import { Entry } from './entry.model';
 import { WordService } from './word.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class AppComponent {
 
   query$: Subject<string> = new Subject<string>()
 
-  results$: Observable<[{word:string,definition:string}]> = this.query$.pipe(
+  results$: Observable<Entry[]> = this.query$.pipe(
     debounceTime(200),
     switchMap(query => {
       return this.wordService.getWords(query)

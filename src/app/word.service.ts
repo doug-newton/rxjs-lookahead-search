@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
+import { Entry } from './entry.model';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +9,13 @@ import { Observable } from 'rxjs';
 export class WordService {
 
   constructor(private http: HttpClient) { }
+  noResult: Entry[] = []
 
-  getWords(word: string): Observable<[{word:string, definition:string}]> {
-    return this.http.get<[{word:string, definition:string}]>(`http://localhost:8080/api/searchByWord/${word}`);
+  getWords(word: string): Observable<Entry[]> {
+    return this.http.get<Entry[]>(`http://localhost:8080/api/searchByWord/${word}`).pipe(
+      catchError(error=>{
+        return of(this.noResult)
+      })
+    )
   }
 }
