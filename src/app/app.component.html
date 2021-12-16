@@ -1,8 +1,7 @@
-<input #query name="query" type="text" (keydown.enter)="search(query.value)">
-<button (click)="search(query.value)">search</button>
+<input #query name="query" type="text" (input)="query$.next(query.value)" placeholder="type something...">
 
 <br>
 
 <ul>
-  <li *ngFor="let word of results"><span style="font-weight: bold;">{{word.word}}</span>: {{word.definition}}</li>
+  <li *ngFor="let word of results$ | async"><span style="font-weight: bold;">{{word.word}}</span>: {{word.definition}}</li>
 </ul>

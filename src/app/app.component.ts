@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, } from '@angular/core';
+import { debounceTime, Observable, Subject, switchMap } from 'rxjs';
 import { WordService } from './word.service';
 
 @Component({
@@ -8,18 +8,17 @@ import { WordService } from './word.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
   constructor(private wordService: WordService){
   }
 
-  sub?: Subscription
+  query$: Subject<string> = new Subject<string>()
 
-  results: {word:string, definition:string}[] = []
-
-  search(query: string) {
-    this.sub = this.wordService.getWords(query).subscribe((w)=>{
-      this.results = w
-      this.sub!.unsubscribe()
+  results$: Observable<[{word:string,definition:string}]> = this.query$.pipe(
+    debounceTime(200),
+    switchMap(query => {
+      return this.wordService.getWords(query)
     })
-  }
+  )
 
 }
